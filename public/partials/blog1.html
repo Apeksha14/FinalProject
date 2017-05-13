@@ -1,0 +1,67 @@
+<div class="container" >
+
+    <div class="row">
+
+         <div class="col-md-offset-3 col-md-6" ng-controller="myCtrl" > 
+
+             <h2 id="formhead"> Nearby Schools</h2>
+
+           
+
+<form id="contact" action="" method="post" ng-submit="nearby()">
+   
+    <fieldset>
+      <label><p>City:</p></label>
+      <input placeholder="City" ng-model="city" type="text" tabindex="1" required autofocus>
+    </fieldset>
+    <fieldset>
+        <label><p>State:</p></label>
+      <input placeholder="State" ng-model="state" type="text" tabindex="2" required>
+    </fieldset>
+     <fieldset>
+        <label><p>Zipcode:</p></label>
+      <input placeholder="Zipcode" ng-model="zipcode" type="text" tabindex="2" required>
+    </fieldset>
+    <fieldset>
+        <label><p>Address:</p></label>
+      <input placeholder="Address" ng-model="address" type="text" tabindex="2" required>
+    </fieldset>
+    <fieldset>
+        <label><p>Type:</p></label>
+      <select name="type" ng-model="type" name="field4" class="field-style field-full" id="type">
+                            <option value="public" selected>Public</option>
+                            <option value="private">Private</option>
+                            
+                            <option value="charter" >Charter</option>
+                        </select>
+    </fieldset>
+    <fieldset>
+        <label><p>Level:</p></label>
+      <select name="level" ng-model="level" name="field5" class="field-style field-full " id="level">
+                            <option value="elementary">Elementary-Schools </option>
+                            <option value="middle" selected>Middle-Schools</option>
+                            <option value="highschool" >High-Schools</option>
+                        </select>
+    </fieldset>
+     <fieldset>
+        <label><p>Radius:</p></label>
+      <select name="radius" ng-model="radius" name="field5" class="field-style field-full " id="level">
+                            <option value="10" selected>10 </option>
+                            <option value="20" >20</option>
+                            <option value="30" >30</option>
+                            <option value="40" >40</option>
+                            <option value="50" >50</option>
+                        </select>
+    </fieldset>
+     <fieldset>
+        <label><p>Limit:</p></label>
+      <input placeholder="Limit" ng-model="limit" type="text" tabindex="2" required>
+    </fieldset>
+    <fieldset>
+<button name="submit" type="submit" id="contact-submit"  >Submit</button>
+
+    </fieldset>
+   
+  </form>
+</div>
+    </div></div>

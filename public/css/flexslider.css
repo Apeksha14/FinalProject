@@ -1,0 +1,383 @@
+/*
+ * jQuery FlexSlider v2.0
+ * http://www.woothemes.com/flexslider/
+ *
+ * Copyright 2012 WooThemes
+ * Free to use under the GPLv2 license.
+ * http://www.gnu.org/licenses/gpl-2.0.html
+ *
+ * Contributing author: Tyler Smith (@mbmufffin)
+ */
+/* Browser Resets */
+.flex-container a:active,
+.flexslider a:active,
+.flex-container a:focus,
+.flexslider a:focus  {outline: none;}
+.slides,
+.flex-control-nav,
+.flex-direction-nav {margin: 0; padding: 0; list-style: none;} 
+
+/* FlexSlider Necessary Styles
+*********************************/ 
+.flexslider .slides > li {display: none; -webkit-backface-visibility: hidden;     margin-top: 2%;} /* Hide the slides before the JS is loaded. Avoids image jumping */
+.flexslider .slides img {width: 100%; display: block;}
+.flex-pauseplay span {text-transform: capitalize;}
+
+/* Clearfix for the .slides element */
+.slides:after {content: "."; display: block; clear: both; visibility: hidden; line-height: 0; height: 0;} 
+html[xmlns] .slides {display: block;} 
+* html .slides {height: 1%;}
+
+/* No JavaScript Fallback */
+/* If you are not using another script, such as Modernizr, make sure you
+ * include js that eliminates this class on page load */
+.no-js .slides > li:first-child {display: block;}
+
+
+/* FlexSlider Default Theme
+*********************************/
+.flexslider {
+	border: 0px;
+	position: relative;
+	zoom: 1;
+}
+.flex-viewport {max-height: 2000px; -webkit-transition: all 1s ease; -moz-transition: all 1s ease; transition: all 1s ease;}
+.loading .flex-viewport {max-height: 300px;}
+.flexslider .slides {zoom: 1; }
+
+.carousel li {margin-right: 5px}
+
+
+/* Direction Nav */
+.flex-direction-nav {*height: 0;}
+.flex-direction-nav a {
+    width: 53px;
+    height: 53px;
+    margin: 0;
+    display: block;
+    background: url('../images/left-arrow.png') no-repeat 13px center;
+    position: absolute;
+    top: 79%;
+    z-index: 99;
+    cursor: pointer;
+    text-indent: -9999px;
+    -webkit-transition: all .5s;
+    -moz-transition: all .5s;
+    transition: all .5s;
+    border: 1px solid #ffffff;
+}
+.flex-direction-nav .flex-next {
+	background: url('../images/right-arrow.png') no-repeat center;
+    background-position: 13px center;
+    right: -9%;
+}
+.flex-direction-nav .flex-prev {left: -9%;}
+.flexslider:hover .flex-next {opacity: 1;}
+.flexslider:hover .flex-prev {opacity: 1;}
+.flexslider:hover .flex-next:hover, .flexslider:hover .flex-prev:hover {
+    opacity: 1; 
+    border-color: #2baf2b;
+    background-color: #2baf2b;
+    border-radius: 50%;
+}
+.flex-direction-nav .flex-disabled {opacity: .3!important; filter:alpha(opacity=30); cursor: default;}
+/* Control Nav */
+.flex-control-nav {
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: -61%;
+    width: 100%;
+    text-align: center;
+}
+.flex-control-nav li {margin: 0 8px; display: inline-block; zoom: 1; *display: inline;}
+.flex-control-paging li a {
+    width: 15px;
+    height: 15px;
+    display: block;
+    background: #fff;
+    cursor: pointer;
+    text-indent: -9999px;
+    border-radius: 50%;
+    border: 2px solid #FAFAFA;
+}
+.flex-control-paging li a.flex-active { 
+	background:#2baf2b;
+    cursor: default;
+}
+.flex-control-thumbs {margin: 5px 0 0; position: static; overflow: hidden;}
+.flex-control-thumbs li {width: 25%; float: left; margin: 0;}
+.flex-control-thumbs img {width: 100%; display: block; opacity: .7; cursor: pointer;}
+.flex-control-thumbs img:hover {opacity: 1;}
+.flex-control-thumbs .flex-active {opacity: 1; cursor: default;}
+
+
+
+/*-- Responsive --*/
+@media(max-width: 1440px){
+	.flexslider .slides > li {
+		
+		margin-top: 1.65%;
+	}
+	.flex-direction-nav a {
+		width: 51px;
+		height: 51px;
+	}
+	.flex-direction-nav .flex-next {
+		right: -5%;
+	}
+	.flex-direction-nav .flex-prev {
+		left: -5%;
+	}
+}
+@media (max-width: 1366px){
+	.flexslider .slides > li {
+		margin-top: 1.58%;
+	}
+}
+@media (max-width: 1280px){
+	.flexslider .slides > li {
+		margin-top: 1.48%;
+	}
+	.flex-direction-nav a {
+		width: 48px;
+		height: 48px;
+		background: url(../images/left-arrow.png) no-repeat 11px center;
+	}
+	.flex-direction-nav .flex-prev {
+		left: -1%;
+	}
+	.flex-direction-nav .flex-next {
+		right: -1%;
+	}
+	.flex-direction-nav .flex-next {
+		background-position: 11px center;
+	}
+}
+@media (max-width:1024px){
+	.flexslider .slides > li {
+		margin-top: 1.2%;
+	}
+	.flex-direction-nav a {
+		width: 45px;
+		height: 45px;
+	}
+	.flex-direction-nav .flex-next {
+		right: 1%;
+	}
+	.flex-direction-nav .flex-prev {
+		left: 1%;
+	}
+}
+@media (max-width:991px){
+	.flex-control-paging li a {
+		width: 14px;
+		height: 14px;
+	}
+	.flexslider .slides > li {
+		margin-top: 1.6%;
+	}
+	.flex-direction-nav .flex-prev {
+		left: -11%;
+	}
+	.flex-direction-nav .flex-next {
+		right: -11%;
+	}
+}
+@media (max-width: 800px){
+	.flexslider .slides > li {
+		margin-top: 1%;
+	}
+	.flex-direction-nav .flex-prev {
+		left: 1%;
+	}
+	.flex-direction-nav .flex-next {
+		right: 1%;
+	}
+	.flex-direction-nav a {
+		width: 42px;
+		height: 42px;
+		background: url(../images/left-arrow.png) no-repeat 8px center;
+	}
+	.flex-direction-nav .flex-next {
+		background-position: 8px center;
+	}
+}
+@media (max-width: 768px){
+	.flexslider .slides > li {
+		margin-top: 1.2%;
+	}
+	.flex-control-nav li {
+		margin: 0 4px;
+	}
+	.flex-control-nav {
+		bottom: -51%;
+	}
+	.flex-control-paging li a {
+		width: 13px;
+		height: 13px;
+	}
+	.flex-direction-nav a {
+		width: 41px;
+		height: 41px;
+		top: 72%;
+	}
+	.nbs-flexisel-nav-left {
+		top: -17% !important;
+	}
+	.nbs-flexisel-nav-right {
+		top: -17% !important;
+	}
+}
+@media (max-width:667px){
+	.flex-control-paging li a {
+		width: 12px;
+		height: 12px;
+	}
+	.flex-control-nav {
+		bottom: -49%;
+	}
+}
+@media (max-width:640px){
+	.agileits_updates_grid_right h3 {
+		font-size: 1.1em;
+	}
+	.flex-direction-nav a {
+		width: 39px;
+		height: 39px;
+		background: url(../images/left-arrow.png) no-repeat 7px center;
+		background-size: 23px;
+	}
+	.flex-direction-nav .flex-next {
+		background-position: 7px center;
+		background-size: 23px;
+	}
+
+}
+@media (max-width: 600px){
+	.flex-direction-nav a {
+		width: 37px;
+		height: 37px;
+		background-size: 22px;
+	}
+	.flex-direction-nav .flex-next {
+		background-size: 23px;
+	}
+	.flex-control-paging li a {
+		width: 11px;
+		height: 11px;
+	}
+	.flex-control-nav {
+		bottom: -45%;
+	}
+	.nbs-flexisel-nav-left {
+		left: 94%;
+	}
+}
+@media (max-width: 480px){
+	.flex-direction-nav a {
+		width: 33px;
+		height: 33px;
+		background-size: 20px;
+		background: url(../images/left-arrow.png) no-repeat 5px center;
+	}
+	.flex-direction-nav .flex-next {
+		background-size: 21px;
+		background-position: 5px center;
+	}
+	.flex-control-nav {
+		bottom: -38%;
+	}
+	.ftr-grid h4 {
+		font-size: 1.3em;
+	}
+	
+}
+@media (max-width: 414px){
+	.flex-direction-nav .flex-prev {
+		left: -1%;
+		background-size: 20px;
+	}
+	.flex-direction-nav .flex-next {
+		right: -1%;
+	}
+	.flex-direction-nav a {
+		width: 31px;
+		height: 31px;
+		background: url(../images/left-arrow.png) no-repeat 4px center;
+	}
+	.flex-direction-nav .flex-next {
+		background-size: 18px;
+	}
+	.flexslider .slides > li {
+		margin-top: 0.95%;
+	}
+	.popular-text i {
+		margin-top: 0.3em;
+	}
+	.popular-grid:nth-child(2), .popular-grid:nth-child(3) , .popular-grid:nth-child(4)  {
+		margin-top: 2.5em;
+	}
+	.nbs-flexisel-nav-left {
+		left: 91%;
+	}
+	.nbs-flexisel-nav-right {
+		top: -10% !important;
+	}
+	.nbs-flexisel-nav-left {
+		top: -10% !important;
+	}
+}
+@media (max-width: 384px){
+	.flex-direction-nav .flex-prev {
+		left: -3%;
+	}
+	.flex-direction-nav .flex-next {
+		right: -3%;
+	}
+	.flex-control-nav {
+		bottom: -34%;
+	}
+}
+@media (max-width: 375px){
+.flex-direction-nav a {
+    width: 28px;
+    height: 28px;
+}
+.flex-direction-nav .flex-next {
+    background-size: 17px;
+}
+.flex-direction-nav .flex-prev {
+    background-size: 19px;
+}
+.popular-grid:nth-child(2), .popular-grid:nth-child(3), .popular-grid:nth-child(4) {
+    margin-top: 2em;
+}
+}
+@media (max-width: 320px){
+	.flex-control-paging li a {
+		width: 10px;
+		height: 10px;
+	}
+	.banner-text {
+		min-height: 134px;
+	}
+	.flexslider .slides > li {
+		margin-top: 0.65%;
+	}
+	.flex-direction-nav a {
+		width: 24px;
+		height: 24px;
+		top: 68%;
+	}
+	.flex-direction-nav .flex-prev {
+		background-size: 15px;
+		left: -4.5%;
+	}
+	.flex-direction-nav .flex-next {
+		background-size: 15px;
+		background-position: 3px center;
+		right: -4.5%;
+	}
+}
+/*-- //Responsive --*/
