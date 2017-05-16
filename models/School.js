@@ -6,6 +6,10 @@ var Schema = mongoose.Schema;
 // Create article schema
 var SchoolSchema = new Schema({
   // title is a required string 
+  userid:{
+    type:String,
+    require:true
+  },
   schoolname: {
     type: String,
     require:true

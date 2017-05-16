@@ -1,11 +1,11 @@
-<div class="header" id="home">
-		<div class="container">
+<div class="header" id="home" >
+		<div class="container" id="headerdiv1" >
 			 <div class="logo">
 				<h1>ScoutSchools</h1>
 			</div> 
 			
-			<div class="header-left">
-				<nav class="navbar navbar-default">
+			<div class="header-left" >
+				<nav class="navbar navbar-default" >
 					<!-- Brand and toggle get grouped for better mobile display -->
 					<div class="navbar-header">
 					  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -17,16 +17,17 @@
 					</div>
 											
 					<!-- Collect the nav links, forms, and other content for toggling -->
-					<div class="collapse navbar-collapse nav-wil" id="bs-example-navbar-collapse-1">
+					<div class="collapse navbar-collapse nav-wil" id="bs-example-navbar-collapse-1" ng-controller="PageCtrl">
 
-						<div class="header-right-search" ng-controller="myCtrl"> 
-							<form ng-submit="sub()">
+						<div > 
+							<h3 style="color:red">{{userlogin.username}}</h3>
+							<!--<form ng-submit="sub()">
 								<input id="searchbar" type="search" ng-model="zipcode" placeholder="Search" />
 								<input type="submit" value="">
-							</form>
+							</form> -->
 						</div>
 						
-						<nav class="link-effect-9" id="link-effect-9">
+						<nav class="link-effect-9" id="link-effect-9" >
 							<ul class="nav navbar-nav">
 								<li class="active"><a class="hvr-overline-from-center scroll" href="index.html">Home</a></li>
 								<li><a href="#/about" class="hvr-overline-from-center scroll">About Us</a></li>
@@ -45,9 +46,12 @@
 										<a href="#/blog8" value="city">City Overview</a>
 										<a href="#/blog9" value="nearbycities">Nearby Cities</a>
 									</div>
-							</li>
+							    </li>
+								<li><a href="#/daycares" class="hvr-overline-from-center scroll">DayCares</a></li>
 								<li><a href="#properties" class="hvr-overline-from-center scroll">Login/SignUp</a></li>
 								<li><a href="#contact" class="hvr-overline-from-center scroll">Contact Us</a></li>
+								<li><a  class="hvr-overline-from-center scroll" ng-click="logout()">Logout</a></li>
+
 							</ul>
 						</nav>
 					</div>

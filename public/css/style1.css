@@ -1976,6 +1976,7 @@ div.borderXwidth a:hover:before, div.borderXwidth a:hover:after
 #home
 {
 	background-color: lightseagreen;
+	width:100%;
 }
 #headerdiv
 {
@@ -2253,4 +2254,9 @@ border:1px solid lightgrey;
 {
 	width:100% !important;
 	height: 50% !important;
+}
+
+#headerdiv1
+{
+	width:100%;
 }

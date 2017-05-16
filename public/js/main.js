@@ -26,10 +26,13 @@ app.config(['$routeProvider', function ($routeProvider) {
     .when("/contact", {templateUrl: "partials/contact.html", controller: "PageCtrl"})
     // Blog
     .when("/blog", {templateUrl: "partials/blog.html", controller: "BlogCtrl"})
+    .when("/daycares", {templateUrl: "partials/daycare.html", controller: "PageCtrl"})
     .when("/blog1", {templateUrl: "partials/blog1.html", controller: "BlogCtrl"})
      .when("/blog2", {templateUrl: "partials/blog2.html", controller: "BlogCtrl"})
     .when("/blog/post", {templateUrl: "partials/blog_item.html", controller: "BlogCtrl"})
+    .when("/errorpage", {templateUrl: "partials/errorpage.html", controller: "PageCtrl"})
     .when("/search", {templateUrl: "partials/search.html", controller: "PageCtrl"})
+    .when("/successpage", {templateUrl: "partials/successpage.html", controller: "PageCtrl"})
     // else 404
     .otherwise("/404", {templateUrl: "partials/404.html", controller: "PageCtrl"});
 }]);
@@ -48,7 +51,8 @@ app.controller('BlogCtrl', function ($scope, $location, $http ) {
  * Controls all other Pages
  */
 var searchResult = [];
-app.controller('myCtrl', function($scope,$http,$location) {
+var user;
+app.controller('myCtrl', function($rootScope,$scope,$http,$location) {
   console.log("mycontrol");
 $scope.sub= function(){
 
@@ -63,9 +67,10 @@ $scope.sub= function(){
       var level = $scope.level;
 
       var input = {
-
-        city: city,
+        
+       
         state:state,
+        city: city,
         type:type,
         level:level
       }
@@ -78,12 +83,13 @@ $scope.sub= function(){
    console.log(response);
   
    $scope.items = [];
-  // console.log(response.schools.school.length);
+  console.log($rootScope.userlogin);
     for(var i=0;i<response.schools.school.length;i++)
     {
       $scope.items[i] =
 
-      {  
+      { 
+        
         "id":response.schools.school[i].gsId[0],
         "name":response.schools.school[i].name[0],
         "type":response.schools.school[i].type[0],
@@ -227,9 +233,45 @@ $scope.profile= function(){
 }
 });
 
-app.controller('PageCtrl', function ( $scope, $location, $http ) {
+app.controller('PageCtrl', function ( $rootScope,$scope, $location, $http ) {
   console.log("Page Controller reporting for duty."); 
+  
   $scope.items = searchResult;  
+
+  $http({
+       method: 'get',
+       url: '/login'
+       
+ }).success(function(response){
+   console.log(response);
+   if(response === "home")
+   {
+     $location.path("/");
+   }
+ });
+
+$scope.logout = function()
+{
+
+  alert("LOGOUT");
+  
+  console.log("LOGOUT");
+
+   $http({
+       method: 'get',
+       url: '/logout'
+       
+ }).success(function(response){
+   
+   console.log(response);
+  
+ });
+
+
+
+} 
+
+
 
  // initMap($scope.items);
   // Activates the Carousel
@@ -302,18 +344,9 @@ app.controller('PageCtrl', function ( $scope, $location, $http ) {
       }
     }*/
     
-    app.controller('login', function($scope,$http,$location) {
-  console.log("login");
-$scope.login= function(){
-   /*  console.log($scope.this.this.zipcode);
-      var data = $scope.this.this.zipcode;
-console.log($scope.this.this.zipcode);
-var data = $scope.this.this.zipcode;*/
+   
 
-}
-});
-
-app.controller('myCtrl1', function($scope,$http,$location,$filter) {
+app.controller('myCtrl1', function($rootScope,$scope,$http,$location,$filter) {
 
   var savedItems = [];
   $scope.setSelected = function(item)
@@ -326,12 +359,21 @@ app.controller('myCtrl1', function($scope,$http,$location,$filter) {
   $scope.saveSearch = function() {
   
   var formData = {};
+  var userid;
+  if($rootScope.userlogin)
+  {
+     userid = $rootScope.userlogin.userid;
+  }
+    else
+  {
+    userid = 0;
+  }
 
   for(var i=0;i<(savedItems.length);i++)
   {
     
   formData[i] = {
-    
+    "userid":userid,
     "name": savedItems[i].name,
     "type":savedItems[i].type,
     "address":savedItems[i].address
@@ -344,6 +386,17 @@ app.controller('myCtrl1', function($scope,$http,$location,$filter) {
        url: '/savesearch',
        headers: {'Content-Type': 'application/json'},
        data: formData
+ }).success(function(response){
+  console.log("repsonse"+response);
+  if(response === "login")
+  {
+    $location.path("/properties");
+  }
+  else if(response === "success")
+  {
+    $location.path("/succespage");
+  }
+
  });
  
 }
@@ -351,16 +404,60 @@ app.controller('myCtrl1', function($scope,$http,$location,$filter) {
 
 })
 
-app.controller('loginCtrl', function ($scope, $location, $http ) {
+app.controller('loginCtrl',function ($rootScope,$scope, $location, $http ) {
   console.log("Login Controller.");
+  $scope.userlogin ={};
   $scope.login = function()
   {
 
     console.log($scope.user);
-        console.log($scope.password);
+    console.log($scope.password);
+   
+    var login= {
+      username: $scope.user,
+      password:$scope.password,
+     
+
+    }
+    console.log(login);
+     $http({
+       method: 'post',
+       url: '/login',
+       headers: {'Content-Type': 'application/json'},
+       data: login
+ }).success(function(response){
+   console.log(response);
+       if(response.username)
+   {
+     user  = response.username; 
+     $rootScope.userlogin = {
+       userid:response._id,
+       username:user
+     };
+     console.log($rootScope);
+     $location.path("/");
+   }
+   else
+   {
+     $rootScope.errors = [];
+     for(var i=0;i<response.length;i++)
+     {
+       $rootScope.errors[i] = 
+       {
+         msg: response[i]
+       }
+       
+     }
+     console.log($rootScope.errors);
+     $location.path("/errorpage")
+   }
+   
+ });
+  }
+
 
     
-  }
+  
 
   
   $scope.signup = function()
@@ -370,8 +467,49 @@ app.controller('loginCtrl', function ($scope, $location, $http ) {
     console.log($scope.password);
     console.log($scope.confirmpwd);
     console.log($scope.email);
-    
+    var register= {
+      username: $scope.user,
+      password:$scope.password,
+      confirmpwd:$scope.confirmpwd,
+      email:$scope.email
+
+    }
+     $http({
+       method: 'post',
+       url: '/register',
+       data: register
+ }).success(function(response){
+   $rootScope.errors1 = [];
+   
+   console.log("response");
+   console.log(response);
+   if(response.length > 0)
+   {
+      
+     for(var i=0;i<response.length;i++)
+     {
+       $rootScope.errors1[i] = 
+       {
+         msg: response[i].msg,
+        
+       }
+       
+     }
+      
+     $location.path("/errorpage");
+   }
+   else
+   {
+     console.log(response);
+     $scope.name = response.username;
+     $location.path("/");
+   }
+   
+
+ })
+
   }
 });
+
 
 

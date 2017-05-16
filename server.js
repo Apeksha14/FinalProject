@@ -20,6 +20,9 @@ var flash = require('connect-flash');
 var session = require('express-session');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var router = express.Router();
+var parseString = require("xml2js").parseString;
+
 
 // Requiring our Note and Article models
 
@@ -28,9 +31,10 @@ var request = require("request");
 var cheerio = require("cheerio");
 // Set mongoose to leverage built in JavaScript ES6 Promises
 var School = require("./models/School.js");
+var User = require("./models/user.js");
+var sess;
 mongoose.Promise = Promise;
-var routes = require('./routes/index');
-var users = require('./routes/users');
+
 // Initialize Express
 var app = express();
 
@@ -48,12 +52,12 @@ app.use(express.static("public"));
 // Passport init
 app.use(passport.initialize());
 app.use(passport.session());
-
+var userid;
 // Express Session
 app.use(session({
     secret: 'secret',
-    saveUninitialized: true,
-    resave: true
+    saveUninitialized: false,
+    resave: false
 }));
 
 // Express Validator
@@ -77,20 +81,6 @@ app.use(expressValidator({
 // Connect Flash
 app.use(flash());
 
-// Global Vars
-app.use(function (req, res, next) {
-  res.locals.success_msg = req.flash('success_msg');
-  res.locals.error_msg = req.flash('error_msg');
-  res.locals.error = req.flash('error');
-  res.locals.user = req.user || null;
-  next();
-});
-
-
-
-app.use('/', routes);
-app.use('/users', users);
-
 // Express Session
 app.use(session({
     secret: 'secret',
@@ -98,40 +88,29 @@ app.use(session({
     resave: true
 }));
 
-app.get("/", function(req, res) {
-res.sendFile(__dirname + "/public/index.html");
-});
-
-let parseString = require('xml2js').parseString;
-
-
-
 app.post("/apidata",function(req,res){
 
-  console.log("apidata");
-  console.log(req.body);
   var url;
- 
-  if((req.body.type) && (req.body.level === null))
-  {
-    url = 'https://api.greatschools.org/schools/'+req.body.state+'/'+req.body.city+'/'+req.body.type+'?key=a5ycuqrxsukeztxwmxdowwxx&sort=parent_rating';
-  }
-  else if((req.body.type === null) && (req.body.level))
-  {
-    url = 'https://api.greatschools.org/schools/'+req.body.state+'/'+req.body.city+'/'+req.body.level+'?key=a5ycuqrxsukeztxwmxdowwxx&sort=parent_rating';
-  }
-  else
-  {
-    url = 'https://api.greatschools.org/schools/'+req.body.state+'/'+req.body.city+'?key=a5ycuqrxsukeztxwmxdowwxx&sort=parent_rating';
+  var parameters = '/';
+
+  for (var key in req.body) {
+
+  if (req.body.hasOwnProperty(key)) {
+
+    item = req.body[key];
+
+    console.log(key+ " "+ req.body[key]);
+
+    parameters = parameters+req.body[key]+'/';
+    
   }
 
+}
+  console.log(parameters);
+  url = "https://api.greatschools.org/schools"+parameters+'?key=a5ycuqrxsukeztxwmxdowwxx&sort=parent_rating';
   console.log(url);
   request(url, function (error, response, body) {
   
-  console.log('error:', error); // Print the error if one occurred 
-  console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received 
-  //console.log('body:', body); // Print the HTML for the Google homepage.
-  //console.log(body);
   parseString(body, function (err, result) {
   //console.log(result);
   res.send(result);
@@ -147,68 +126,72 @@ app.post("/apidata",function(req,res){
 
 app.post("/nearbyschools",function(req,res){
 
-  console.log("nearbyschools");
-  console.log(req.body);
   var url;
- 
-  if(req.body.state)
-  {
-  url = 'http://api.greatschools.org/schools/nearby?key=a5ycuqrxsukeztxwmxdowwxx&&state='+req.body.state+'&zip='+req.body.zipcode+'&radius='+req.body.radius+'&limit='+req.body.limit;
+  var parameters = 'a5ycuqrxsukeztxwmxdowwxx';
+
+  for (var key in req.body) {
+
+  if (req.body.hasOwnProperty(key)) {
+
+    item = req.body[key];
+
+    console.log(key+ " "+ req.body[key]);
+
+    parameters = parameters+"&"+key+"="+req.body[key];
+    
+
   }
-  console.log(url);
-  request(url, function (error, response, body) {
+}
+
+url = 'https://api.greatschools.org/schools/nearby?key='+parameters;
+ 
+request(url, function (error, response, body) {
   
-  console.log('error:', error); // Print the error if one occurred 
-  console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received 
-  //console.log('body:', body); // Print the HTML for the Google homepage.
-  //console.log(body);
   parseString(body, function (err, result) {
-  //console.log(result);
-  res.send(result);
-});
-  
 
+      res.send(result);
   });
-
   
+});
 
 });
 
 app.post("/profile",function(req,res){
 
-  console.log("profile");
-  console.log(req.body);
-    console.log(req.body.id);
+   var url;
+  var parameters = '/';
 
-  var url;
- 
-  if(req.body.state)
-  {
-  url = 'http://api.greatschools.org/schools/'+req.body.state+'/'+req.body.id+'?key=a5ycuqrxsukeztxwmxdowwxx';
-;
+  for (var key in req.body) {
+
+  if (req.body.hasOwnProperty(key)) {
+
+    item = req.body[key];
+
+    console.log(key+ " "+ req.body[key]);
+
+    parameters = parameters+req.body[key]+'/';
+    
   }
-  console.log(url);
-  request(url, function (error, response, body) {
+
+}
+  url = "https://api.greatschools.org/schools"+parameters+'?key=a5ycuqrxsukeztxwmxdowwxx';
   
-  console.log('error:', error); // Print the error if one occurred 
-  console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received 
-  //console.log('body:', body); // Print the HTML for the Google homepage.
-  //console.log(body);
+request(url, function (error, response, body) {
+  
   parseString(body, function (err, result) {
-  //console.log(result);
+
   res.send(result);
-});
-  
 
   });
-
   
+});
 
 });
 
 app.post('/search', function(req, res) {
-  console.log("postsearch");
+
   res.send(__dirname + "/public/partials/faq.html");
+
 });
 // Make public a static dir
 
@@ -241,6 +224,10 @@ db.once("open", function() {
 
 
 app.post("/savesearch", function(req, res) {
+  console.log("savesearch");
+  console.log(sess);
+if(sess)
+{
 
 for (var key in req.body) {
 
@@ -248,7 +235,7 @@ for (var key in req.body) {
 
     item = req.body[key];
 
-    var school = new School({"schoolname":item.name,"type":item.type,"address":item.address});
+    var school = new School({"userid":item.userid,"schoolname":item.name,"type":item.type,"address":item.address});
    
     school.save(function(err, resp) {
     if (err) {
@@ -261,6 +248,171 @@ for (var key in req.body) {
     
   }
 }
+res.send("success");
+
+}
+else
+{
+  res.redirect("/login");
+}
+
+
+});
+
+// Get Homepage
+function ensureAuthenticated(req, res, next){
+  console.log("ensureauth");
+  console.log(req.isAuthenticated());
+	if(req.isAuthenticated()){
+    console.log("ifensureauth");
+		return next();
+	} else {
+		//req.flash('error_msg','You are not logged in');
+		res.redirect("/loginform");
+	}
+}
+
+app.post('/register', function(req, res){
+  console.log(req.body);
+	var name = req.body.username;
+	var password = req.body.password;
+	var confirmpwd = req.body.confirmpwd;
+	var email = req.body.email;
+  
+
+	// Validation
+	req.checkBody('username', 'Name is required').notEmpty();
+	req.checkBody('email', 'Email is required').notEmpty();
+	req.checkBody('email', 'Email is not valid').isEmail();
+	req.checkBody('password', 'Password is required').notEmpty();
+	req.checkBody('confirmpwd', 'Passwords do not match').equals(req.body.password);
+
+	var errors = req.validationErrors();
+
+	if(errors){
+		console.log(errors);
+    res.send(errors);
+
+
+
+	} else {
+		var newUser = new User({
+			
+			email:email,
+			username: name,
+			password: password
+		});
+
+		User.createUser(newUser, function(err, user){
+			if(err)
+
+      { 
+        console.log(err);
+        throw err;
+
+      }
+			
+		});
+
+		req.flash('success_msg', 'You are registered and can now login');
+    
+		res.send(newUser);
+	}
+});
+
+passport.use(new LocalStrategy(
+  function(username, password, done) {
+   User.getUserByUsername(username, function(err, user){
+
+   	if(err) throw err;
+   	if(!user){
+   		return done(null, false, {message: 'Unknown User'});
+   	}
+
+   	User.comparePassword(password, user.password, function(err, isMatch){
+   		if(err) throw err;
+   		if(isMatch){
+   			return done(null, user);
+   		} else {
+   			return done(null, false, {message: 'Invalid password'});
+   		}
+   	});
+   });
+  }));
+
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+  User.getUserById(id, function(err, user) {
+    done(err, user);
+  });
+});
+
+
+
+app.post('/login',passport.authenticate('local',{failureRedirect:'/errorpage',failureFlash: true}),
+  function(req, res) {
+    console.log("sdfdsafadfadfasfasdfsd");
+    sess = req.session;
+    userid = req.user._id;
+    sess.username=req.user.username;
+    School.find({"userid":req.user._id},function(err,data){
+if(err)
+  console.log(err);
+else
+{
+  //res.sendFile(path.join(__dirname, '/public/index.html'));
+ // res.send(data);
+ console.log(data);
+}
+    })
+    res.send(req.user);
+    
+  });
+
+// Global Vars
+app.use(function (req, res, next) {
+  res.locals.success_msg = req.flash('success_msg');
+  res.locals.error_msg = req.flash('error_msg');
+  res.locals.error = req.flash('error');
+  res.locals.user = req.body.username || null;
+  next();
+});
+
+app.get('/logout', function(req, res){
+  
+  sess = null;
+	
+  req.logout();
+
+	req.flash('success_msg', 'You are logged out');
+
+  res.redirect('/');
+});
+
+
+// Get Homepage
+app.get('/login', ensureAuthenticated, function(req, res){
+  console.log("inside login");
+	res.send("home");;
+});
+
+// Get Homepage
+app.get('/loginform', function(req, res){
+  console.log("inside loginform");
+	res.send("login");
+});
+
+
+app.get('/errorpage',function(req,res){
+
+  console.log(res);
+  if(res.locals.error)
+  {
+    res.send(res.locals.error);
+  }
 
 });
 // Listen on port 3000
