@@ -240,7 +240,7 @@ $scope.nearby= function(){
   // console.log(response.schools.school.length);
     for(var i=0;i<response.schools.school.length;i++)
     {
-      if((response.schools.school[i].enrollment) && (response.schools.school[i].parentRating))
+      if((response.schools.school[i].enrollment) && (response.schools.school[i].parentRating) && (response.schools.school[i].fax) && (response.schools.school[i].phone))
       {
       $scope.items[i] =
 

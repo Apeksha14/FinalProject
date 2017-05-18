@@ -144,6 +144,8 @@ app.post("/nearbyschools",function(req,res){
 }
 
 url = 'https://api.greatschools.org/schools/nearby?key='+parameters;
+
+console.log(url);
  
 request(url, function (error, response, body) {
   
