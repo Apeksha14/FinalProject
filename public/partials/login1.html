@@ -1,0 +1,38 @@
+<div class="container" ng-controller="loginCtrl" >
+
+    <div class="row">
+
+         <div class="col-md-offset-3 col-md-6"  > 
+
+             <h2 id="formhead">Sign Up</h2>
+
+           
+
+<form id="contact" action="" method="post" ng-submit="signup()">
+   
+    <fieldset>
+      <label><p>Username:</p></label>
+      <input placeholder="Username" ng-model="user" type="text" tabindex="1" required autofocus>
+    </fieldset>
+    <fieldset>
+        <label><p>Password:</p></label><br>
+      <input style="height:40px;width:100%;" placeholder="Password" ng-model="password" type="password" tabindex="2" required>
+    </fieldset>
+    <fieldset>
+        <label><p>Confirm Password:</p></label><br>
+            <input style="height:40px;width:100%;" placeholder="Confirm Password" ng-model="confirmpwd" type="password" tabindex="2" required>
+
+    </fieldset>
+   <fieldset>
+        <label><p>Email :</p></label>
+            <input placeholder="Email" ng-model="email" type="text" tabindex="2" required>
+
+    </fieldset>
+    <fieldset>
+<button name="submit" type="submit" id="contact-submit"  >SignUp</button>
+
+    </fieldset>
+   
+  </form>
+</div>
+    </div></div>

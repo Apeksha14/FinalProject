@@ -1,0 +1,57 @@
+		<div class="component" ng-controller="myCtrl1" >
+				<form ng-submit="saveSearch()">
+				<table id="tablediv8">
+					<thead>
+						<tr>
+							<th>Save</th>
+							<th>District</th>
+							<th>Address</th>
+							<th>Details</th>
+							
+							
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat-start="item in items" >
+                            
+      						<td><input type="checkbox" ng-model="item.value" ng-click="setSelected(item)"></td> 
+							<td ng-model="name" >{{item.district}}</td> 
+							<td ng-model="name" >{{item.address}}</td> 
+                            
+							<td>
+							<button ng-if="item.expanded" ng-click="item.expanded = false">Collapse</button>
+              				<button ng-if="!item.expanded" ng-click="item.expanded = true">Details</button>
+							</td>
+
+          
+                        </tr>
+						<tr ng-if="item.expanded" ng-repeat-end="" style="text-align:center">
+            
+							<td colspan="6">
+							<h4>District Name : <span style="color:red">{{item.name[0]}}</span> </h4>
+							<h4>Charter Schools : <span style="color:red">{{item.charter[0]}}</span> </h4>
+							<h4>Elementary Schools: <span style="color:red">{{item.elementary[0]}}</span> </h4>
+							<h4>High Schools : <span style="color:red">{{item.high[0]}}</span> </h4>
+							<h4>Middle Schools: <span style="color:red">{{item.middle[0]}}</span> </h4>
+							<h4>Public Schools : <span style="color:red">{{item.public[0]}}</span> </h4>
+							<h4>NCES Code : <span style="color:red">{{item.nces[0]}}</span> </h4>
+
+							<h4>Grade Range : <span style="color:red">{{item.grade[0]}}</span> </h4>
+							<h4>Total Schools : <span style="color:red">{{item.total[0]}}</span> </h4>
+							<h4>Phone : <span style="color:red">{{item.phone[0]}}</span> </h4>
+							<h4>Fax : <span style="color:red">{{item.fax[0]}}</span> </h4>
+							<h4>Website : <span style="color:red">{{item.website[0]}}</span> </h4>
+
+							</td>
+          				</tr>
+					</tbody>
+				</table>
+				<button type="submit">Save Search</button>
+				</form>
+				
+			</div>
+
+            <div id="mapprop"></div>
+            
+
+			

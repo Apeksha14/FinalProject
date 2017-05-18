@@ -1,4 +1,8 @@
-
+#homediv
+{
+    overflow: hidden;
+    width:100%;
+}
 #carousaldiv
 {
     width:100% !important;
@@ -8,7 +12,8 @@
 
 #mycarousal
 {
-     width:100% !important;
+    width:100% !important;
+    
     margin:0 !important;
     padding : 0 !important;
 }
@@ -39,7 +44,10 @@
     height: 1000px !important;
     margin: auto;
 }
-
+.carousel-indicators
+{
+    left:5% !important;
+}
 .item {
     height: 1000px !important;
 }
@@ -207,7 +215,7 @@ a img {
 .header-text {
   position: absolute;
   top: 20%;
-  left: 1.8%;
+  left: 5.8%;
   right: auto;
   width: 96.66666666666666%;
   color: #fff;
@@ -243,4 +251,52 @@ a img {
   color: #000;
   background-color: #fff;
   border-color: #fff;
+}
+
+
+/* Carousel Header Styles */
+.header-text {
+    position: absolute;
+    top: 20%;
+    left: 6.8%;
+    right: auto;
+    width: 96.66666666666666%;
+    color: #fff;
+}
+
+.header-text h2 {
+    font-size: 40px;
+    background: transparent;
+}
+
+.header-text h2 span {
+	padding: 10px;
+    background: transparent;
+}
+
+.header-text h3 span {
+background: transparent;	padding: 15px;
+}
+
+.btn-min-block {
+    min-width: 170px;
+    line-height: 26px;
+}
+
+.btn-theme {
+    color: #fff;
+    background-color: transparent;
+    border: 2px solid #fff;
+    margin-right: 15px;
+}
+
+.btn-theme:hover {
+    color: #000;
+    background-color: #fff;
+    border-color: #fff;
+}
+
+#nameh4
+{
+    margin:30px !important;
 }

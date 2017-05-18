@@ -4,11 +4,11 @@
 
          <div class="col-md-offset-3 col-md-6" ng-controller="myCtrl" > 
 
-             <h2 id="formhead">School Profile</h2>
+             <h2 id="formhead">School Search</h2>
 
            
 
-<form id="contact" action="" method="post" ng-submit="profile()">
+<form id="contact" action="" method="post" ng-submit="schoolsearch()">
    
     <fieldset>
       <label><p>State:</p></label>
@@ -16,12 +16,20 @@
     </fieldset>
     <fieldset>
         <label><p>Query String:</p></label>
-      <input placeholder="gsid" ng-model="gsid" type="text" tabindex="2" required>
+      <input placeholder="query string" ng-model="query" type="text" tabindex="2" required>
     </fieldset>
     <fieldset>
-        <label><p>School Id:</p></label>
-      <input placeholder="gsid" ng-model="gsid" type="text" tabindex="2" required>
+        <label><p>Level:</p></label>
+      <select name="level" ng-model="level" name="field5" class="field-style field-full " id="level">
+                            <option value="elementary-schools">Elementary-Schools </option>
+                            <option value="middle-schools" selected>Middle-Schools</option>
+                            <option value="high-schools" >High-Schools</option>
+                        </select>
     </fieldset>
+    <fieldset>
+        <label><p>Limit:</p></label>
+      <input placeholder="Limit" ng-model="limit" type="text" tabindex="2" >
+    </fieldset> 
      
     <fieldset>
 <button name="submit" type="submit" id="contact-submit"  >Submit</button>

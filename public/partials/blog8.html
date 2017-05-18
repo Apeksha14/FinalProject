@@ -1,0 +1,50 @@
+<div class="container" >
+
+    <div class="row">
+
+         <div class="col-md-offset-3 col-md-6" ng-controller="myCtrl" > 
+
+             <h2 id="formhead">Nearby Cities</h2>
+
+            
+
+<form id="contact" action="" method="post" ng-submit="nearbycity()">
+   
+    <fieldset>
+      <label><p>City:</p></label>
+      <input placeholder="City" ng-model="city" type="text" tabindex="1" required autofocus>
+    </fieldset>
+    <fieldset>
+        <label><p>State:</p></label>
+      <input placeholder="State" ng-model="state" type="text" tabindex="2" required>
+    </fieldset>
+
+    <fieldset>
+        <label><p>Radius:</p></label>
+      <select name="radius" ng-model="radius" name="field5" class="field-style field-full " id="level">
+                            <option value="10" selected>10 </option>
+                            <option value="20" >20</option>
+                            <option value="30" >30</option>
+                            <option value="40" >40</option>
+                            <option value="50" >50</option>
+                        </select>
+    </fieldset>
+
+    <fieldset>
+        <label><p>Sort:</p></label>
+       <select name="sort" ng-model="sortresult" name="field5" class="field-style field-full " id="level">
+                            <option value="distance" selected>distance </option>
+                            <option value="name" >name</option>
+                            <option value="rating" >rating</option>
+                            
+                        </select>
+    </fieldset>
+
+    <fieldset>
+<button name="submit" type="submit" id="contact-submit"  >Submit</button>
+
+    </fieldset>
+   
+  </form>
+</div>
+    </div></div>

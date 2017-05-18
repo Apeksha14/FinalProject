@@ -1,0 +1,69 @@
+		<div class="component" ng-controller="myCtrl1" >
+				<form ng-submit="saveSearch()">
+				<table id="tablediv">
+					<thead>
+						<tr>
+							<th>Save</th>
+							<th>School Name</th>
+							<th> Rank</th>
+							<th> Score</th>
+							<th>Scale</th>
+							<th>Year</th>
+							<th>Details</th>
+							
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat-start="item in items" ng-click="schooldetails(item.schooldetails)">
+                            
+      						<td><input type="checkbox" ng-model="item.value" ng-click="setSelected(items)"></td> 
+							<td ng-model="rank" >{{item.name}}</td> 
+							<td ng-model="rank" >{{item.rank}}</td> 
+                            <td ng-model="score">{{item.score}}</td>
+                            <td ng-modal="scale">{{item.scale}}</td>
+                            <!--<td><a ng-href="{{item.url}}">{{item.url}}</a></td>-->
+							<td ng-model="year">{{item.year}}</td>
+							<td>
+							<button ng-if="item.expanded" ng-click="item.expanded = false">Collapse</button>
+              				<button ng-if="!item.expanded" ng-click="item.expanded = true">Details</button>
+							</td>
+
+          
+                        </tr>
+						<tr ng-if="item.expanded" ng-repeat-end="" style="text-align:center">
+            
+							<td colspan="6">
+							<h4>Name : <span style="color:red">{{item.name}}</span> </h4>
+							<h4>Rank : <span style="color:red">{{item.rank}}</span> </h4>
+							<h4>Score: <span style="color:red">{{item.score}}</span> </h4>
+							<h4>Scale : <span style="color:red">{{item.scale}}</span> </h4>
+							<h4>Year : <span style="color:red">{{item.year}}</span> </h4>
+							<h4 ng-repeat="test in item.tests">
+								Test Details : <br>
+								Name : <span style="color:red">{{test.name[0]}}</span><br>
+								Test Abbreviation : <span style="color:red">{{test.abbreviation[0]}}</span><br>
+								Test Description : <span style="color:red">{{test.description[0]}}</span><br>
+								Test Id : <span style="color:red">{{test.id[0]}}</span><br>
+								
+							
+
+								
+								
+						    </h4></td>
+          				</tr>
+					</tbody>
+				</table>
+				<button type="submit">Save Search</button>
+				</form>
+				
+			</div>
+			<div ng-repeat="test in items.test">
+
+<h3>{{test.name}}</h3>
+<h3>{{test.description}}</h3>
+
+			</div>
+            <div id="mapprop"></div>
+            
+
+			

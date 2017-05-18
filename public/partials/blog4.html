@@ -1,0 +1,51 @@
+<div class="container" >
+
+    <div class="row">
+
+         <div class="col-md-offset-3 col-md-6" ng-controller="myCtrl" > 
+
+             <h2 id="formhead">Schools Review</h2>
+
+           
+
+<form id="contact" action="" method="post" ng-submit="schoolreview()">
+
+    <fieldset>
+      <label><p>School/City:</p></label>
+      <select name="type" ng-model="type" name="field4" class="field-style field-full" id="type">
+                            <option value="school" selected>School</option>
+                            <option value="city">City</option>
+      </select>
+    </fieldset>
+   
+    <fieldset>
+      <label><p>State:</p></label>
+      <input placeholder="State" ng-model="state" type="text" tabindex="2" required>
+    </fieldset>
+    <fieldset>
+        <label><p>City Name:</p></label>
+        <input placeholder="City" ng-model="city" type="text" tabindex="2" autofocus>
+      
+    </fieldset>
+   
+    <fieldset>
+        <label><p>School Id:</p></label>
+      <input placeholder="School Id" ng-model="gsid" type="text" tabindex="2" >
+    </fieldset> 
+     <fieldset>
+        <label><p>Cut Off Age:</p></label>
+      <input placeholder="Age" ng-model="age" type="text" tabindex="2" >
+    </fieldset> 
+     <fieldset>
+        <label><p>Limit</p></label>
+      <input placeholder="Limit" ng-model="limit" type="text" tabindex="2" >
+    </fieldset> 
+    
+    <fieldset>
+<button name="submit" type="submit" id="contact-submit"  >Submit</button>
+
+    </fieldset>
+   
+  </form>
+</div>
+    </div></div>

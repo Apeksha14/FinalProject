@@ -22,6 +22,8 @@ app.config(['$routeProvider', function ($routeProvider) {
     .when("/about", {templateUrl: "partials/about.html", controller: "PageCtrl"})
     .when("/faq", {templateUrl: "partials/faq.html", controller: "PageCtrl"})
     .when("/properties", {templateUrl: "partials/properties.html", controller: "PageCtrl"})
+        .when("/login", {templateUrl: "partials/login1.html", controller: "PageCtrl"})
+
     .when("/services", {templateUrl: "partials/services.html", controller: "PageCtrl"})
     .when("/contact", {templateUrl: "partials/contact.html", controller: "PageCtrl"})
     // Blog
@@ -29,9 +31,28 @@ app.config(['$routeProvider', function ($routeProvider) {
     .when("/daycares", {templateUrl: "partials/daycare.html", controller: "PageCtrl"})
     .when("/blog1", {templateUrl: "partials/blog1.html", controller: "BlogCtrl"})
      .when("/blog2", {templateUrl: "partials/blog2.html", controller: "BlogCtrl"})
+       .when("/blog3", {templateUrl: "partials/blog3.html", controller: "BlogCtrl"})
+
+     .when("/blog4", {templateUrl: "partials/blog4.html", controller: "BlogCtrl"})
+    .when("/blog5", {templateUrl: "partials/blog5.html", controller: "BlogCtrl"})
+    .when("/blog6", {templateUrl: "partials/blog6.html", controller: "BlogCtrl"})
+    .when("/blog7", {templateUrl: "partials/blog7.html", controller: "BlogCtrl"})
+    .when("/blog8", {templateUrl: "partials/blog8.html", controller: "BlogCtrl"})
+    .when("/blog9", {templateUrl: "partials/blog9.html", controller: "BlogCtrl"})
     .when("/blog/post", {templateUrl: "partials/blog_item.html", controller: "BlogCtrl"})
     .when("/errorpage", {templateUrl: "partials/errorpage.html", controller: "PageCtrl"})
+    .when("/schooldetails", {templateUrl: "partials/schooldetails.html", controller: "BlogCtrl"})
     .when("/search", {templateUrl: "partials/search.html", controller: "PageCtrl"})
+    .when("/search1", {templateUrl: "partials/search1.html", controller: "PageCtrl"})
+    .when("/search2", {templateUrl: "partials/search2.html", controller: "PageCtrl"})
+    .when("/search3", {templateUrl: "partials/search3.html", controller: "PageCtrl"})
+    .when("/search4", {templateUrl: "partials/search4.html", controller: "PageCtrl"})
+    .when("/search5", {templateUrl: "partials/search5.html", controller: "PageCtrl"})
+    .when("/search6", {templateUrl: "partials/search6.html", controller: "PageCtrl"})
+    .when("/search7", {templateUrl: "partials/search7.html", controller: "PageCtrl"})
+    .when("/search8", {templateUrl: "partials/search8.html", controller: "PageCtrl"})
+    .when("/search9", {templateUrl: "partials/search9.html", controller: "PageCtrl"})
+
     .when("/successpage", {templateUrl: "partials/successpage.html", controller: "PageCtrl"})
     // else 404
     .otherwise("/404", {templateUrl: "partials/404.html", controller: "PageCtrl"});
@@ -43,6 +64,58 @@ app.config(['$routeProvider', function ($routeProvider) {
 app.controller('BlogCtrl', function ($scope, $location, $http ) {
   console.log("Blog Controller reporting for duty.");
   console.log("dropdownCtrl");
+  $scope.schoolsearch= function(){
+
+      var state = $scope.state;
+      var city = $scope.city;
+      var query = $scope.query;
+      var limit = $scope.limit;
+
+    
+     console.log($scope.state);
+     console.log($scope.city);
+     console.log($scope.query);
+     console.log($scope.limit);
+
+      var input = {
+
+        state:state,
+        city:city,
+        query:query,
+        limit:limit
+      }
+
+     $http({
+       method: 'post',
+       url: '/schoolsearch',
+       data: input
+ }).success(function(response){
+   console.log(response);
+  
+   $scope.items = [];
+  // console.log(response.schools.school.length);
+    for(var i=0;i<response.schools.school.length;i++)
+    {
+      $scope.items[i] =
+
+      {  
+        "id":response.schools.school[i].gsId[0],
+        "name":response.schools.school[i].name[0],
+        "type":response.schools.school[i].type[0],
+        "address" :response.schools.school[i].address[0],
+        
+      }
+
+      
+    }
+    searchResult = $scope.items;
+    //console.log(searchResult);
+          
+                      
+                $location.path('/search/');
+   
+});
+}
   
 });
 
@@ -81,11 +154,14 @@ $scope.sub= function(){
        data: input
  }).success(function(response){
    console.log(response);
-  
+   $scope.items1 = response;
    $scope.items = [];
   console.log($rootScope.userlogin);
+  
     for(var i=0;i<response.schools.school.length;i++)
     {
+      if((response.schools.school[i].enrollment) && (response.schools.school[i].parentRating))
+      {
       $scope.items[i] =
 
       { 
@@ -94,13 +170,22 @@ $scope.sub= function(){
         "name":response.schools.school[i].name[0],
         "type":response.schools.school[i].type[0],
         "address" :response.schools.school[i].address[0],
+        "range":response.schools.school[i].gradeRange[0],
+        "enroll":response.schools.school[i].enrollment[0],
+        "rating":response.schools.school[i].parentRating[0],
+        "city":response.schools.school[i].city[0],
+        "state":response.schools.school[i].state[0],
+        "phone":response.schools.school[i].phone[0],
+        "fax":response.schools.school[i].fax[0],
+        "website":response.schools.school[i].website[0]
         
+      }
       }
 
       
     }
     searchResult = $scope.items;
-    //console.log(searchResult);
+    console.log(searchResult);
           
                       
                 $location.path('/search/');
@@ -155,22 +240,34 @@ $scope.nearby= function(){
   // console.log(response.schools.school.length);
     for(var i=0;i<response.schools.school.length;i++)
     {
+      if((response.schools.school[i].enrollment) && (response.schools.school[i].parentRating))
+      {
       $scope.items[i] =
 
-      {  
+      { 
+        
+        "id":response.schools.school[i].gsId[0],
         "name":response.schools.school[i].name[0],
         "type":response.schools.school[i].type[0],
         "address" :response.schools.school[i].address[0],
+        "range":response.schools.school[i].gradeRange[0],
+        "enroll":response.schools.school[i].enrollment[0],
+        "rating":response.schools.school[i].parentRating[0],
+        "city":response.schools.school[i].city[0],
+        "state":response.schools.school[i].state[0],
+        "phone":response.schools.school[i].phone[0],
+        "fax":response.schools.school[i].fax[0],
+        "website":response.schools.school[i].website[0]
         
       }
 
-      
+      }
     }
     searchResult = $scope.items;
-    //console.log(searchResult);
+    console.log($scope.items);
           
                       
-                $location.path('/search/');
+                $location.path('/search1/');
 
 
 });
@@ -205,37 +302,486 @@ $scope.profile= function(){
    console.log(response);
   
    $scope.items = [];
-  // console.log(response.schools.school.length);
-    for(var i=0;i<1;i++)
+  console.log(response.school.gsId[0]);
+     for(var i=0;i<1;i++)
     {
+      
+      
+
+      
       $scope.items[i] =
 
-      {  
+      { 
+        
         "id":response.school.gsId[0],
         "name":response.school.name[0],
         "type":response.school.type[0],
         "address" :response.school.address[0],
+        "range":response.school.gradeRange[0],
+        "enroll":response.school.enrollment,
+        "rating":response.school.parentRating,
+        "city":response.school.city[0],
+        "state":response.school.state[0],
+        "phone":response.school.phone[0],
+        "fax":response.school.fax[0],
+        "website":response.school.website[0]
         
-      }
-
+      
       
     }
+      
+    
+    }
+
+      
+    
     searchResult = $scope.items;
     console.log(searchResult);
           
                       
-                $location.path('/search/');
+                $location.path('/search2');
  
 
 
   
 });
 }
+
+
+$scope.schoolsearch= function(){
+
+      var state = $scope.state;
+      var city = $scope.city;
+      var query = $scope.query;
+      var limit = $scope.limit;
+
+    
+     console.log($scope.state);
+     console.log($scope.city);
+     console.log($scope.query);
+     console.log($scope.limit);
+
+      var input = {
+
+        state:state,
+        city:city,
+        q:query,
+        limit:limit
+      }
+
+     $http({
+       method: 'post',
+       url: '/schoolsearch',
+       data: input
+ }).success(function(response){
+   console.log(response);
+  
+   $scope.items = [];
+  console.log(response.schools.school);
+    for(var i=0;i<response.schools.school.length;i++)
+    {
+      
+      
+
+      
+      $scope.items[i] =
+
+      { 
+        
+        "id":response.schools.school[i].gsId[0],
+        "name":response.schools.school[i].name[0],
+        "type":response.schools.school[i].type[0],
+        "address" :response.schools.school[i].address[0],
+        "range":response.schools.school[i].gradeRange[0],
+        "enroll":response.schools.school[i].enrollment,
+        "rating":response.schools.school[i].parentRating,
+        "city":response.schools.school[i].city[0],
+        "state":response.schools.school[i].state[0],
+        "phone":response.schools.school[i].phone[0],
+        "fax":response.schools.school[i].fax[0],
+        "website":response.schools.school[i].website[0]
+        
+      
+      
+    }
+      
+    
+    }
+
+    searchResult = $scope.items;
+    //console.log(searchResult);
+          
+                      
+                $location.path('/search3/');
+   
+});
+}
+
+$scope.schoolreview= function(){
+
+    console.log($scope.type);
+     console.log($scope.name);
+     console.log($scope.state);
+     console.log($scope.city);
+     console.log($scope.limit);
+
+     var type = $scope.type;
+      var state = $scope.state;
+      var city = $scope.city;
+      var gsid = $scope.gsid;
+      var limit = $scope.limit;
+      var cutoffAge = $scope.age;
+
+      var input = {
+
+        type:type,
+        state:state,
+        city:city,
+        gsid:gsid,
+        limit:limit,
+        cutoffAge:cutoffAge
+      }
+
+     $http({
+       method: 'post',
+       url: '/reviews',
+       data: input
+ }).success(function(response){
+   console.log(response);
+  
+   $scope.items = [];
+  // console.log(response.schools.school.length);
+    for(var i=0;i<response.schools.school.length;i++)
+    {
+      $scope.items[i] =
+
+      {  
+        "id":response.schools.school[i].gsId[0],
+        "name":response.schools.school[i].name[0],
+        "type":response.schools.school[i].type[0],
+        "address" :response.schools.school[i].address[0],
+        "rating":response.schools.school[i].rating[0]
+      }
+
+      
+    }
+    searchResult = $scope.items;
+    //console.log(searchResult);
+          
+                      
+                $location.path('/search4/');
+ 
+
+
+  
+});
+}
+
+$scope.test= function(){
+
+     
+     console.log($scope.state);
+     console.log($scope.gsid)
+      var state = $scope.state;
+      var id = $scope.gsid;
+
+      var input = {
+
+        state: state,
+        gsID:id
+        
+      }
+
+
+     $http({
+       method: 'post',
+       url: '/tests',
+       data: input
+ }).success(function(response){
+  
+   $scope.items = [];
+  
+   console.log(response);
+   console.log(response.testResults.rank[0].name);
+   console.log(response.testResults.rank[0].score);
+   console.log(response.testResults.rank[0].scale);
+   console.log(response.testResults.rank[0].year);
+
+  for(var i=0;i<1;i++)
+    {
+     $scope.items[i] = {
+        
+        
+        "rank":response.testResults.rank[0].name[0],
+        "score": response.testResults.rank[0].score[0],
+        "scale":response.testResults.rank[0].scale[0],
+        "year":response.testResults.rank[0].year[0],
+        "name":response.testResults.schoolName[0],
+        "tests":response.testResults.test
+
+      }
+    }
+  
+    console.log($scope.items);
+    searchResult = $scope.items;
+    //console.log(searchResult);
+          
+                      
+                $location.path('/search5/');
+ 
+
+
+  
+});
+}
+
+
+$scope.schoolcensus= function(){
+
+      console.log($scope.state);
+     console.log($scope.gsid)
+      var state = $scope.state;
+      var id = $scope.gsid;
+
+      var input = {
+
+        state: state,
+        gsID:id
+        
+      }
+
+
+     $http({
+       method: 'post',
+       url: '/census',
+       data: input
+ }).success(function(response){
+   console.log(response['census-data']);
+  
+   $scope.items = [];
+  
+    for(var i=0;i<1;i++)
+    {
+      $scope.items[i] =
+
+      {  
+        "address":response['census-data'].address[0],
+        "district":response['census-data'].district[0],
+        "enrollment":response['census-data'].enrollment[0],
+        "ethnicities" :response['census-data'].enthnicities,
+        "percent":response['census-data'].percentTeachersInFirstSecondYear[0],
+        "email":response['census-data'].headOfficialEmail[0],
+        "name":response['census-data'].headOfficialName[0],
+        "phone":response['census-data'].phone[0],
+        "schoolName": response['census-data'].schoolName[0],
+        "type": response['census-data'].type[0]
+      }
+
+      
+    }
+    searchResult = $scope.items;
+  console.log(searchResult);
+          
+                      
+                $location.path('/search6/');
+ 
+
+
+  
+});
+}
+$scope.overview= function(){
+
+     console.log($scope.city);
+     console.log($scope.state);
+     
+
+      var city = $scope.city;
+      var state = $scope.state;
+      
+
+      var input = {
+
+        city: city,
+        state:state,
+        
+      }
+
+     $http({
+       method: 'post',
+       url: '/cities',
+       data: input
+ }).success(function(response){
+   console.log(response);
+  
+   $scope.items = [];
+   console.log(response.city);
+    
+      for(var i=0;i<1;i++)
+    {
+      $scope.items[i] =
+
+      {  
+        "charter":response.city.charterSchools[0],
+        "elementary":response.city.elementarySchools[0],
+        "high":response.city.highSchools[0],
+        "middle" :response.city.middleSchools[0],
+        "name":response.city.name[0],
+        "private":response.city.privateSchools[0],
+        "public":response.city.publicSchools[0],
+        "rating":response.city.rating[0],
+        "total": response.city.totalSchools[0],
+      }
+
+      
+    
+      
+    }
+    searchResult = $scope.items;
+    //console.log(searchResult);
+          
+                      
+                $location.path('/search7/');
+ 
+
+
+  
+});
+}
+$scope.nearbycity= function(){
+
+     console.log($scope.city);
+     console.log($scope.state);
+     console.log($scope.radius);
+          console.log($scope.sortresult);
+
+     
+
+      var city = $scope.city;
+      var state = $scope.state;
+      var radius = $scope.radius;
+      var sort = $scope.sortresult;
+      
+
+      var input = {
+
+        
+        state:state,
+        city: city,
+        radius:radius,
+        sort:sort
+      }
+
+     $http({
+       method: 'post',
+       url: '/nearbycities',
+       data: input
+ }).success(function(response){
+   console.log(response);
+  
+   $scope.items = [];
+  console.log(response.cities.city.length);
+    for(var i=0;i<response.cities.city.length;i++)
+    {
+     
+      $scope.items[i] =
+
+      {  
+        "charter":response.cities.city[i].charterSchools[0],
+        "elementary":response.cities.city[i].elementarySchools[0],
+        "high":response.cities.city[i].highSchools[0],
+        "middle" :response.cities.city[i].middleSchools[0],
+        "name":response.cities.city[i].name[0],
+        "private":response.cities.city[i].privateSchools[0],
+        "public":response.cities.city[i].publicSchools[0],
+        "rating":response.cities.city[i].rating,
+        "total": response.cities.city[i].totalSchools[0],
+      }
+
+      
+      
+    }
+    searchResult = $scope.items;
+    console.log(searchResult);
+          
+                      
+                $location.path('/search8/');
+ 
+
+
+  
+});
+}
+$scope.district= function(){
+
+     console.log($scope.city);
+     console.log($scope.state);
+     
+
+      var city = $scope.city;
+      var state = $scope.state;
+      
+      
+      var input = {
+
+        city: city,
+        state:state
+        
+      }
+
+     $http({
+       method: 'post',
+       url: '/districts',
+       data: input
+ }).success(function(response){
+   console.log(response);
+  
+   $scope.items = [];
+   console.log(response.districts.district);
+  for(var i=0;i<response.districts.district.length;i++)
+    {
+     
+      $scope.items[i] =
+
+      {  
+        "address":response.districts.district[i].address[0],
+        "charter":response.districts.district[i].charterSchools,
+        "elementary" :response.districts.district[i].elementarySchools,
+        "fax":response.districts.district[i].fax,
+        "grade":response.districts.district[i].gradeRange,
+        "high":response.districts.district[i].highSchools,
+        "middle":response.districts.district[i].middleSchools,
+        "name": response.districts.district[i].name,
+        "nces":response.districts.district[i].ncesCode,
+        "phone":response.districts.district[i].phone,
+        "public":response.districts.district[i].publicSchools,
+        "total":response.districts.district[i].totalSchools,
+        "website":response.districts.district[i].website
+      }
+
+      
+      
+    }
+    searchResult = $scope.items;
+    //console.log(searchResult);
+          
+                      
+                $location.path('/search9/');
+ 
+
+
+  
+});
+}
+
+
 });
 
-app.controller('PageCtrl', function ( $rootScope,$scope, $location, $http ) {
+app.controller('PageCtrl', function ( $rootScope,$scope, $location, $http,Session ) {
   console.log("Page Controller reporting for duty."); 
-  
+  angular.element(document.getElementById("nameh4")).innerHTML = "";
+  $rootScope.session = Session;
+  //Session = null;
   $scope.items = searchResult;  
 
   $http({
@@ -243,6 +789,7 @@ app.controller('PageCtrl', function ( $rootScope,$scope, $location, $http ) {
        url: '/login'
        
  }).success(function(response){
+  
    console.log(response);
    if(response === "home")
    {
@@ -252,10 +799,11 @@ app.controller('PageCtrl', function ( $rootScope,$scope, $location, $http ) {
 
 $scope.logout = function()
 {
-
-  alert("LOGOUT");
-  
-  console.log("LOGOUT");
+  Session = null;
+  //document.getElementById('namediv').innerHTML = "";
+  document.getElementById('nameh4').style.display ="none";
+  console.log(Session);
+ console.log("LOGOUT");
 
    $http({
        method: 'get',
@@ -264,6 +812,7 @@ $scope.logout = function()
  }).success(function(response){
    
    console.log(response);
+   $location.path('/');
   
  });
 
@@ -394,18 +943,46 @@ app.controller('myCtrl1', function($rootScope,$scope,$http,$location,$filter) {
   }
   else if(response === "success")
   {
-    $location.path("/succespage");
+    $location.path("/successpage");
   }
 
  });
  
 }
+$scope.schooldetails = function(id)
+{
+  
+  console.log("schooldetails");
+  
+  console.log(id.gsId[0]);
+  console.log(id.name[0]);
+  console.log(id.address[0]);
+
+  $scope.details= [];
+
+  $scope.details = {
+    
+    id:id.gsId[0],
+    name:id.name[0],
+    address:id.address[0]
+
+  }
+  
+    $location.path("/schooldetails");
+
+}
 
 
-})
 
-app.controller('loginCtrl',function ($rootScope,$scope, $location, $http ) {
+
+
+});
+
+app.controller('loginCtrl',function ($rootScope,$scope, $location, $http,Session ) {
   console.log("Login Controller.");
+    
+  $rootScope.session = Session;
+ 
   $scope.userlogin ={};
   $scope.login = function()
   {
@@ -426,6 +1003,12 @@ app.controller('loginCtrl',function ($rootScope,$scope, $location, $http ) {
        headers: {'Content-Type': 'application/json'},
        data: login
  }).success(function(response){
+    angular.element(document.getElementById('nameh3')).innerHTML = Session.data ;
+ //var newEle = angular.element("<h3 style='color:red' ng-bind='session.data'></h3>");
+  //  var target = document.getElementById('nameh4');
+    //angular.element(target).append(angular.element(document.getElementById('nameh3')).innerHTML);
+
+
    console.log(response);
        if(response.username)
    {
@@ -435,6 +1018,7 @@ app.controller('loginCtrl',function ($rootScope,$scope, $location, $http ) {
        username:user
      };
      console.log($rootScope);
+     
      $location.path("/");
    }
    else
@@ -451,6 +1035,9 @@ app.controller('loginCtrl',function ($rootScope,$scope, $location, $http ) {
      console.log($rootScope.errors);
      $location.path("/errorpage")
    }
+
+   
+
    
  });
   }
@@ -511,5 +1098,34 @@ app.controller('loginCtrl',function ($rootScope,$scope, $location, $http ) {
   }
 });
 
+app.run(function(Session) {}); //bootstrap session;
+
+app.factory('Session', function($http,$rootScope) {
+  
+  var Session = {
+    data: '',
+    saveSession: function() { /* save session data to db */ },
+    updateSession: function() { 
+      /* load data from db */
+      $http.get('/getsessiondata')
+        .then(function(r) { 
+          console.log(r);
+          return Session.data = r.data;})
+    }
+  };
+  Session.updateSession();
+  return Session; 
+});
 
 
+/*
+
+function PageCtrl(){}
+PageCtrl.prototype = {
+  addElement:function(){
+    var newEle = angular.element("<h3 style='color:red' ng-bind='session.data'></h3>");
+    var target = document.getElementById('namediv');
+    angular.element(target).append(newEle);
+  }
+};
+*/

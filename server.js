@@ -158,7 +158,7 @@ request(url, function (error, response, body) {
 
 app.post("/profile",function(req,res){
 
-   var url;
+  var url;
   var parameters = '/';
 
   for (var key in req.body) {
@@ -187,6 +187,259 @@ request(url, function (error, response, body) {
 });
 
 });
+
+app.post("/schoolsearch",function(req,res){
+
+  var url;
+  var parameters = 'a5ycuqrxsukeztxwmxdowwxx';
+
+  for (var key in req.body) {
+
+  if (req.body.hasOwnProperty(key)) {
+
+    item = req.body[key];
+
+    console.log(key+ " "+ req.body[key]);
+
+    parameters = parameters+"&"+key+"="+req.body[key];
+    
+
+  }
+}
+  console.log(parameters);
+  
+  //http://api.greatschools.org/search/schools?key=a5ycuqrxsukeztxwmxdowwxx&state=CA&q=Alameda&sort=alpha&levelCode=elementary-schools&limit=10
+  url = 'http://api.greatschools.org/search/schools?key='+parameters;
+ 
+  console.log(url);
+  request(url, function (error, response, body) {
+  
+    console.log('error:', error); // Print the error if one occurred 
+    console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received 
+    //console.log('body:', body); // Print the HTML for the Google homepage.
+    //console.log(body);
+    parseString(body, function (err, result) {
+  //console.log(result);
+      res.send(result);
+    });
+  });
+});
+
+//school review post
+app.post("/reviews",function(req,res){
+
+   var url;
+  var parameters = '/';
+
+  for (var key in req.body) {
+
+  if (req.body.hasOwnProperty(key)) {
+
+    item = req.body[key];
+
+    console.log(key+ " "+ req.body[key]);
+
+    if((key !== "limit") && (key !== "cutoffAge"))
+    {
+    parameters = parameters+req.body[key]+"/";
+    }
+    
+  }
+}
+
+  console.log(parameters);
+  if(req.body.limit)
+  {
+  url = "https://api.greatschools.org/reviews"+parameters+"?key=a5ycuqrxsukeztxwmxdowwxx&limit="+req.body.limit;
+}
+else if(req.body.cutoffAge)
+{
+ url = "https://api.greatschools.org/reviews"+parameters+"?key=a5ycuqrxsukeztxwmxdowwxx&limit="+req.body.limit; +"&cutoffAge="+req.body.cutoffAge;
+}
+
+ else  if((req.body.limit) && (req.body.cutoffAge))
+  {
+
+  url = "https://api.greatschools.org/reviews"+parameters+"?key=a5ycuqrxsukeztxwmxdowwxx&limit="+req.body.limit+"&cutoffAge="+req.body.cutoffAge;
+}
+else
+{
+    url = "https://api.greatschools.org/reviews"+parameters+"?key=a5ycuqrxsukeztxwmxdowwxx";
+
+}
+console.log(url);
+request(url, function (error, response, body) {
+  
+  parseString(body, function (err, result) {
+
+  res.send(result);
+
+  });
+  
+});
+
+});
+
+
+//test scores post
+app.post("/tests",function(req,res){
+
+  console.log("tests");
+  console.log(req.body);
+  console.log(req.body.id);
+var url ;
+  url = "http://api.greatschools.org/school/tests/"+req.body.state+"/"+req.body.gsID+"?key=a5ycuqrxsukeztxwmxdowwxx";
+
+
+
+  console.log(url);
+  request(url, function (error, response, body) {
+  
+    console.log('error:', error); // Print the error if one occurred 
+    console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received 
+    //console.log('body:', body); // Print the HTML for the Google homepage.
+    //console.log(body);
+    parseString(body, function (err, result) {
+  //console.log(result);
+      res.send(result);
+    });
+  });
+});
+
+//http://api.greatschools.org/cities/AK/Anchorage?key=[yourAPIKey]
+
+//city overview post
+app.post("/cities",function(req,res){
+
+  console.log("cities");
+  console.log(req.body);
+  console.log(req.body.id);
+
+  var url;
+ 
+  url = "http://api.greatschools.org/cities/"+req.body.state+"/"+req.body.city+"?key=a5ycuqrxsukeztxwmxdowwxx";
+  
+
+
+  console.log(url);
+  request(url, function (error, response, body) {
+  
+    console.log('error:', error); // Print the error if one occurred 
+    console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received 
+    //console.log('body:', body); // Print the HTML for the Google homepage.
+    //console.log(body);
+    parseString(body, function (err, result) {
+  //console.log(result);
+      res.send(result);
+    });
+  });
+});
+
+//nearby cities post
+app.post("/nearbycities",function(req,res){
+
+   var url;
+  var parameters = '&';
+
+  for (var key in req.body) {
+
+  if (req.body.hasOwnProperty(key)) {
+
+    item = req.body[key];
+
+    console.log(key+ " "+ req.body[key]);
+
+    if((key !== "state") && (key !== "city"))
+    {
+    parameters = parameters+req.body[key]+"&";
+    }
+    
+  }
+}
+  
+  url = 'http://api.greatschools.org/cities/nearby/'+req.body.state+'/'+req.body.city+"?key=a5ycuqrxsukeztxwmxdowwxx"+parameters;
+  
+ 
+//http://api.greatschools.org/cities/nearby/CA/San-Francisco?key=[yourAPIKey]&radius=5&sort=rating
+  console.log(url);
+  request(url, function (error, response, body) {
+  
+    console.log('error:', error); // Print the error if one occurred 
+    console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received 
+    //console.log('body:', body); // Print the HTML for the Google homepage.
+    //console.log(body);
+    parseString(body, function (err, result) {
+  //console.log(result);
+      res.send(result);
+    });
+  });
+
+});
+
+
+
+
+
+ //census data post
+
+app.post("/census",function(req,res){
+
+  console.log("schoolreview");
+  console.log(req.body);
+
+  var url;
+ 
+  url = "http://api.greatschools.org/school/census/"+req.body.state+"/"+req.body.gsID+"?key=a5ycuqrxsukeztxwmxdowwxx";
+
+
+  console.log(url);
+  request(url, function (error, response, body) {
+  
+    console.log('error:', error); // Print the error if one occurred 
+    console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received 
+    //console.log('body:', body); // Print the HTML for the Google homepage.
+    //console.log(body);
+    parseString(body, function (err, result) {
+  //console.log(result);
+      res.send(result);
+    });
+  });
+});
+
+//browse district posy
+
+app.post("/districts",function(req,res){
+
+  console.log("districts");
+  console.log(req.body);
+  console.log(req.body.id);
+
+  
+  
+  url = 'http://api.greatschools.org/districts/'+req.body.state+'/'+req.body.city+'?key=a5ycuqrxsukeztxwmxdowwxx';
+  
+
+
+  console.log(url);
+  request(url, function (error, response, body) {
+  
+    console.log('error:', error); // Print the error if one occurred 
+    console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received 
+    //console.log('body:', body); // Print the HTML for the Google homepage.
+    //console.log(body);
+    parseString(body, function (err, result) {
+  //console.log(result);
+      res.send(result);
+    });
+  });
+});
+
+
+
+
+
+
+
 
 app.post('/search', function(req, res) {
 
@@ -389,7 +642,7 @@ app.get('/logout', function(req, res){
 
 	req.flash('success_msg', 'You are logged out');
 
-  res.redirect('/');
+  res.send("home");
 });
 
 
@@ -413,6 +666,17 @@ app.get('/errorpage',function(req,res){
   {
     res.send(res.locals.error);
   }
+
+});
+
+app.get('/getsessiondata',function(req,res){
+console.log("getsessiondata");
+//sess = req.session;
+
+console.log(sess);
+ 
+  res.send(sess.username);
+  
 
 });
 // Listen on port 3000
