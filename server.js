@@ -216,7 +216,7 @@ app.post("/schoolsearch",function(req,res){
   console.log(parameters);
   
   //http://api.greatschools.org/search/schools?key=a5ycuqrxsukeztxwmxdowwxx&state=CA&q=Alameda&sort=alpha&levelCode=elementary-schools&limit=10
-  url = 'http://api.greatschools.org/search/schools?key='+parameters;
+  url = 'https://api.greatschools.org/search/schools?key='+parameters;
  
   console.log(url);
   request(url, function (error, response, body) {
@@ -295,7 +295,7 @@ app.post("/tests",function(req,res){
   console.log(req.body);
   console.log(req.body.id);
 var url ;
-  url = "http://api.greatschools.org/school/tests/"+req.body.state+"/"+req.body.gsID+"?key=a5ycuqrxsukeztxwmxdowwxx";
+  url = "https://api.greatschools.org/school/tests/"+req.body.state+"/"+req.body.gsID+"?key=a5ycuqrxsukeztxwmxdowwxx";
 
 
 
@@ -324,7 +324,7 @@ app.post("/cities",function(req,res){
 
   var url;
  
-  url = "http://api.greatschools.org/cities/"+req.body.state+"/"+req.body.city+"?key=a5ycuqrxsukeztxwmxdowwxx";
+  url = "https://api.greatschools.org/cities/"+req.body.state+"/"+req.body.city+"?key=a5ycuqrxsukeztxwmxdowwxx";
   
 
 
@@ -364,7 +364,7 @@ app.post("/nearbycities",function(req,res){
   }
 }
   
-  url = 'http://api.greatschools.org/cities/nearby/'+req.body.state+'/'+req.body.city+"?key=a5ycuqrxsukeztxwmxdowwxx"+parameters;
+  url = 'https://api.greatschools.org/cities/nearby/'+req.body.state+'/'+req.body.city+"?key=a5ycuqrxsukeztxwmxdowwxx"+parameters;
   
  
 //http://api.greatschools.org/cities/nearby/CA/San-Francisco?key=[yourAPIKey]&radius=5&sort=rating
@@ -396,7 +396,7 @@ app.post("/census",function(req,res){
 
   var url;
  
-  url = "http://api.greatschools.org/school/census/"+req.body.state+"/"+req.body.gsID+"?key=a5ycuqrxsukeztxwmxdowwxx";
+  url = "https://api.greatschools.org/school/census/"+req.body.state+"/"+req.body.gsID+"?key=a5ycuqrxsukeztxwmxdowwxx";
 
 
   console.log(url);
@@ -423,7 +423,7 @@ app.post("/districts",function(req,res){
 
   
   
-  url = 'http://api.greatschools.org/districts/'+req.body.state+'/'+req.body.city+'?key=a5ycuqrxsukeztxwmxdowwxx';
+  url = 'https://api.greatschools.org/districts/'+req.body.state+'/'+req.body.city+'?key=a5ycuqrxsukeztxwmxdowwxx';
   
 
 
@@ -459,8 +459,8 @@ app.post('/search', function(req, res) {
 
    //var uristring = process.env.MONGOLAB_URI ||  process.env.MONGODB_URI || process.env.MONGOHQ_URL || 'mongodb://heroku_z49hw4k5:jg8j247rul3ho8c8gb5qndited@ds111791.mlab.com:11791/heroku_z49hw4k5';
 
-    //var uristring = 'mongodb://heroku_z49hw4k5:jg8j247rul3ho8c8gb5qndited@ds111791.mlab.com:11791/heroku_z49hw4k5'
-    var uristring = 'mongodb://localhost/angulardb';
+    var uristring = 'mongodb://heroku_8l5pxnlr:roq3e873hjpqc0gbgmcm1vt4g9@ds149431.mlab.com:49431/heroku_8l5pxnlr';
+   // var uristring = 'mongodb://localhost/angulardb';
     var PORT = process.env.PORT || 3000;
     mongoose.connect(uristring, function (err, res) {
       if (err) {
