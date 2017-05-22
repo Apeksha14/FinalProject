@@ -1,37 +1,38 @@
-		<div class="component" ng-controller="myCtrl1" >
-            <h2 style="text-align:center">Day Care Info</h2><hr>
-				<form ng-submit="saveSearch()">
-				<table id="tablediv">
-					<thead>
-						<tr>
-							<th>Save</th>
-							<th>Name</th>
-							<th>Address</th>
-							
-							
-							
-						</tr>
-					</thead>
-					<tbody>
-						<!-- <tr ng-repeat="item in items">
-                            
-      						<td><input type="checkbox" ng-model="item.value" ng-click="setSelected(item)"></td> 
-							<td ng-model="name">{{item.id}}</td> 
-                            <td ng-model="name">{{item.name}}</td>
-                            <td ng-modal="type">{{item.type}}</td> -->
-                            <!--<td><a ng-href="{{item.url}}">{{item.url}}</a></td>-->
-							<!-- <td ng-model="address">{{item.address}}</td>  -->
+<div class="container" >
 
-          
-                       <!--  </tr> -->
-					</tbody>
-				</table>
-				<button type="submit">Save Search</button>
-				</form>
-				
-			</div>
+    <div class="row">
 
-            <div id="mapprop"></div>
-            
+         <div class="col-md-offset-3 col-md-6" ng-controller="myCtrl" > 
 
-			
+             <h2 id="formhead"> Browse Daycares</h2>
+
+           
+
+<form id="contact" action="" method="post" ng-submit="sub()">
+   
+    <fieldset>
+      <label><p>City:</p></label>
+      <input placeholder="City" ng-model="city" type="text" tabindex="1" required autofocus>
+    </fieldset>
+    <fieldset>
+        <label><p>State:</p></label>
+      <input placeholder="State" ng-model="state" type="text" tabindex="2" required>
+    </fieldset>
+    <fieldset>
+        <label><p>Level:</p></label>
+      <select name="level" ng-model="level" name="field5" class="field-style field-full " id="level">
+                            <option value="5-star">Five Star Centers</option>
+                            <option value="4-star">Four Star Centers</option>
+                            <option value="3-star">Three Star Centers</option>
+                            <option value="2-star">Two Star Centers</option>
+                            <option value="1-star">One Star Centers</option>
+                        </select>
+    </fieldset>
+    <fieldset>
+<button name="submit" type="submit" id="contact-submit"  >Submit</button>
+
+    </fieldset>
+   
+  </form>
+</div>
+    </div></div>

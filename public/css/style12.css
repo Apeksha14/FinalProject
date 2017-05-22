@@ -274,8 +274,20 @@ a img {
     background: transparent;
 }
 
-.header-text h3 span {
-background: transparent;	padding: 15px;
+.header-text h3  {
+    text-align: center;
+background: transparent;	
+padding: 15px;
+}
+
+.header-text h4  {
+	padding: 10px;
+    background: transparent;
+}
+
+.header-text h4 span {
+background: transparent;	
+padding: 15px;
 }
 
 .btn-min-block {
@@ -300,3 +312,5 @@ background: transparent;	padding: 15px;
 {
     margin:30px !important;
 }
+
+

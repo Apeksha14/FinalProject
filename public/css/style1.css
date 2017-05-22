@@ -2118,6 +2118,7 @@ div.borderXwidth a:hover:before, div.borderXwidth a:hover:after
 }
 
 #contact h3 {
+color:darkgrey;
   display: block;
   font-size: 30px;
   font-weight: 300;

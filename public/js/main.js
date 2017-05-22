@@ -1,7 +1,3 @@
-/**
- * AngularJS Tutorial 1
- * @author Nick Kaye <nick.c.kaye@gmail.com>
- */
 
 /**
  * Main AngularJS Web Application
@@ -20,30 +16,27 @@ app.config(['$routeProvider', function ($routeProvider) {
     .when("/", {templateUrl: "partials/home.html", controller: "PageCtrl"})
     // Pages
     .when("/about", {templateUrl: "partials/about.html", controller: "PageCtrl"})
-    .when("/faq", {templateUrl: "partials/faq.html", controller: "PageCtrl"})
-    .when("/properties", {templateUrl: "partials/properties.html", controller: "PageCtrl"})
-        .when("/login", {templateUrl: "partials/login1.html", controller: "PageCtrl"})
+    .when("/team", {templateUrl: "partials/faq.html", controller: "PageCtrl"})
+    .when("/login", {templateUrl: "partials/login.html", controller: "PageCtrl"})
+    .when("/signup", {templateUrl: "partials/login1.html", controller: "PageCtrl"})
 
     .when("/services", {templateUrl: "partials/services.html", controller: "PageCtrl"})
     .when("/contact", {templateUrl: "partials/contact.html", controller: "PageCtrl"})
     // Blog
-    .when("/blog", {templateUrl: "partials/blog.html", controller: "BlogCtrl"})
+    .when("/school", {templateUrl: "partials/browseSchool.html", controller: "BlogCtrl"})
     .when("/daycares", {templateUrl: "partials/daycare.html", controller: "PageCtrl"})
-    .when("/blog1", {templateUrl: "partials/blog1.html", controller: "BlogCtrl"})
-     .when("/blog2", {templateUrl: "partials/blog2.html", controller: "BlogCtrl"})
-       .when("/blog3", {templateUrl: "partials/blog3.html", controller: "BlogCtrl"})
-
-     .when("/blog4", {templateUrl: "partials/blog4.html", controller: "BlogCtrl"})
-    .when("/blog5", {templateUrl: "partials/blog5.html", controller: "BlogCtrl"})
-    .when("/blog6", {templateUrl: "partials/blog6.html", controller: "BlogCtrl"})
-    .when("/blog7", {templateUrl: "partials/blog7.html", controller: "BlogCtrl"})
-    .when("/blog8", {templateUrl: "partials/blog8.html", controller: "BlogCtrl"})
-    .when("/blog9", {templateUrl: "partials/blog9.html", controller: "BlogCtrl"})
-    .when("/blog/post", {templateUrl: "partials/blog_item.html", controller: "BlogCtrl"})
+    .when("/nearby", {templateUrl: "partials/nearbySchool.html", controller: "BlogCtrl"})
+    .when("/profile", {templateUrl: "partials/schoolProfile.html", controller: "BlogCtrl"})
+    .when("/schoolsearch", {templateUrl: "partials/school.html", controller: "BlogCtrl"})
+    .when("/test", {templateUrl: "partials/testScores.html", controller: "BlogCtrl"})
+    .when("/census", {templateUrl: "partials/censusData.html", controller: "BlogCtrl"})
+    .when("/city", {templateUrl: "partials/cityOverview.html", controller: "BlogCtrl"})
+    .when("/cities", {templateUrl: "partials/nearbyCities.html", controller: "BlogCtrl"})
+    .when("/districts", {templateUrl: "partials/browseDistricts.html", controller: "BlogCtrl"})
     .when("/errorpage", {templateUrl: "partials/errorpage.html", controller: "PageCtrl"})
     .when("/schooldetails", {templateUrl: "partials/schooldetails.html", controller: "BlogCtrl"})
     .when("/search", {templateUrl: "partials/search.html", controller: "PageCtrl"})
-    .when("/search1", {templateUrl: "partials/search1.html", controller: "PageCtrl"})
+    .when("/nearbysearch", {templateUrl: "partials/search1.html", controller: "PageCtrl"})
     .when("/search2", {templateUrl: "partials/search2.html", controller: "PageCtrl"})
     .when("/search3", {templateUrl: "partials/search3.html", controller: "PageCtrl"})
     .when("/search4", {templateUrl: "partials/search4.html", controller: "PageCtrl"})
@@ -109,7 +102,7 @@ app.controller('BlogCtrl', function ($scope, $location, $http ) {
       
     }
     searchResult = $scope.items;
-    //console.log(searchResult);
+    console.log(searchResult);
           
                       
                 $location.path('/search/');
@@ -208,7 +201,7 @@ $scope.nearby= function(){
       var radius = $scope.radius;
       var limit = $scope.limit;
 
-      console.log($scope.city);
+     console.log($scope.city);
      console.log($scope.state);
      console.log($scope.type);
      console.log($scope.level);
@@ -240,7 +233,8 @@ $scope.nearby= function(){
   // console.log(response.schools.school.length);
     for(var i=0;i<response.schools.school.length;i++)
     {
-      if((response.schools.school[i].enrollment) && (response.schools.school[i].parentRating) && (response.schools.school[i].fax) && (response.schools.school[i].phone))
+
+      if((response.schools.school[i].gradeRange) && (response.schools.school[i].enrollment) && (response.schools.school[i].parentRating) && (response.schools.school[i].phone) && (response.schools.school[i].fax) && (response.schools.school[i].website))
       {
       $scope.items[i] =
 
@@ -260,14 +254,15 @@ $scope.nearby= function(){
         "website":response.schools.school[i].website[0]
         
       }
-
       }
+
+      
     }
     searchResult = $scope.items;
     console.log($scope.items);
           
                       
-                $location.path('/search1/');
+    $location.path('/nearbysearch/');
 
 
 });
@@ -307,7 +302,8 @@ $scope.profile= function(){
     {
       
       
-
+if((response.schools.school[i].gradeRange) && (response.schools.school[i].enrollment) && (response.schools.school[i].parentRating) && (response.schools.school[i].phone) && (response.schools.school[i].fax) && (response.schools.school[i].website))
+      {
       
       $scope.items[i] =
 
@@ -318,8 +314,8 @@ $scope.profile= function(){
         "type":response.school.type[0],
         "address" :response.school.address[0],
         "range":response.school.gradeRange[0],
-        "enroll":response.school.enrollment,
-        "rating":response.school.parentRating,
+        "enroll":response.school.enrollment[0],
+        "rating":response.school.parentRating[0],
         "city":response.school.city[0],
         "state":response.school.state[0],
         "phone":response.school.phone[0],
@@ -329,7 +325,7 @@ $scope.profile= function(){
       
       
     }
-      
+      }
     
     }
 
@@ -381,7 +377,8 @@ $scope.schoolsearch= function(){
     for(var i=0;i<response.schools.school.length;i++)
     {
       
-      
+      if((response.schools.school[i].enrollment) && (response.schools.school[i].parentRating))
+      {
 
       
       $scope.items[i] =
@@ -393,8 +390,8 @@ $scope.schoolsearch= function(){
         "type":response.schools.school[i].type[0],
         "address" :response.schools.school[i].address[0],
         "range":response.schools.school[i].gradeRange[0],
-        "enroll":response.schools.school[i].enrollment,
-        "rating":response.schools.school[i].parentRating,
+        "enroll":response.schools.school[i].enrollment[0],
+        "rating":response.schools.school[i].parentRating[0],
         "city":response.schools.school[i].city[0],
         "state":response.schools.school[i].state[0],
         "phone":response.schools.school[i].phone[0],
@@ -402,7 +399,7 @@ $scope.schoolsearch= function(){
         "website":response.schools.school[i].website[0]
         
       
-      
+      }
     }
       
     
@@ -779,7 +776,7 @@ $scope.district= function(){
 
 app.controller('PageCtrl', function ( $rootScope,$scope, $location, $http,Session ) {
   console.log("Page Controller reporting for duty."); 
-  angular.element(document.getElementById("nameh4")).innerHTML = "";
+  //angular.element(document.getElementById("nameh4")).innerHTML = "";
   $rootScope.session = Session;
   //Session = null;
   $scope.items = searchResult;  
@@ -801,8 +798,9 @@ $scope.logout = function()
 {
   Session = null;
   //document.getElementById('namediv').innerHTML = "";
-  document.getElementById('nameh4').style.display ="none";
-  console.log(Session);
+  document.getElementById('nameh3').innerHTML ="";
+  document.getElementById('logoutdiv').innerHTML ="";  
+console.log(Session);
  console.log("LOGOUT");
 
    $http({
@@ -939,7 +937,7 @@ app.controller('myCtrl1', function($rootScope,$scope,$http,$location,$filter) {
   console.log("repsonse"+response);
   if(response === "login")
   {
-    $location.path("/properties");
+    $location.path("/login");
   }
   else if(response === "success")
   {
@@ -1003,11 +1001,10 @@ app.controller('loginCtrl',function ($rootScope,$scope, $location, $http,Session
        headers: {'Content-Type': 'application/json'},
        data: login
  }).success(function(response){
-    angular.element(document.getElementById('nameh3')).innerHTML = Session.data ;
- //var newEle = angular.element("<h3 style='color:red' ng-bind='session.data'></h3>");
-  //  var target = document.getElementById('nameh4');
-    //angular.element(target).append(angular.element(document.getElementById('nameh3')).innerHTML);
-
+  //  angular.element(document.getElementById('nameh3')).innerHTML = Session.data ;
+    //angular.element(document.getElementById('nameh4')).append(document.getElementById('nameh3'));
+  document.getElementById('nameh4').innerHTML = Session.data;
+  //document.getElementById('logoutdiv').innerHTML =""; 
 
    console.log(response);
        if(response.username)

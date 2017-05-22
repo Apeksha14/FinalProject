@@ -14,15 +14,15 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat-start="item in items" >
+						<tr ng-repeat-start="item in items track by $index" ng-if="item">
                             
       						<td><input type="checkbox" ng-model="item.value" ng-click="setSelected(item)"></td> 
 							<td ng-model="name" >{{item.id}}</td> 
-                            <td ng-model="name">{{item.name}}</td>
-                            <td ng-modal="type">{{item.type}}</td>
+                            <td ng-model="name" >{{item.name}}</td>
+                            <td ng-modal="type" >{{item.type}}</td>
                             <!--<td><a ng-href="{{item.url}}">{{item.url}}</a></td>-->
-							<td ng-model="address">{{item.address}}</td>
-							<td>
+							<td ng-model="address" >{{item.address}}</td>
+							<td >
 							<button ng-if="item.expanded" ng-click="item.expanded = false">Collapse</button>
               				<button ng-if="!item.expanded" ng-click="item.expanded = true">Details</button>
 							</td>

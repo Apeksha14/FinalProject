@@ -150,8 +150,13 @@ console.log(url);
 request(url, function (error, response, body) {
   
   parseString(body, function (err, result) {
-
+    console.log(result);
       res.send(result);
+      if(err)
+
+      {
+        console.log(err);
+      }
   });
   
 });

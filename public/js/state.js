@@ -1,5 +1,5 @@
-var states = ["Alabama|Alaska|Arizona|Arkansas|California|Colorado|Connecticut|Delaware|District of Columbia|Florida|Georgia|Hawaii|Idaho|Illinois|Indiana|Iowa|Kansas|Kentucky|Louisiana|Maine|Maryland|Massachusetts|Michigan|Minnesota|Mississippi|Missouri|Montana|Nebraska|Nevada|New Hampshire|New Jersey|New Mexico|New York|North Carolina|North Dakota|Ohio|Oklahoma|Oregon|Pennsylvania|Rhode Island|South Carolina|South Dakota|Tennessee|Texas|Utah|Vermont|Virginia|Washington|West Virginia|Wisconsin|Wyoming"];
-
+var state_arr = ["Alabama|Alaska|Arizona|Arkansas|California|Colorado|Connecticut|Delaware|District of Columbia|Florida|Georgia|Hawaii|Idaho|Illinois|Indiana|Iowa|Kansas|Kentucky|Louisiana|Maine|Maryland|Massachusetts|Michigan|Minnesota|Mississippi|Missouri|Montana|Nebraska|Nevada|New Hampshire|New Jersey|New Mexico|New York|North Carolina|North Dakota|Ohio|Oklahoma|Oregon|Pennsylvania|Rhode Island|South Carolina|South Dakota|Tennessee|Texas|Utah|Vermont|Virginia|Washington|West Virginia|Wisconsin|Wyoming"];
+var country_arr = ["Alabama|Alaska|Arizona|Arkansas|California|Colorado"]
 function populateStates(countryElementId, stateElementId) {
 
     var selectedCountryIndex = document.getElementById(countryElementId).selectedIndex;
@@ -35,3 +35,104 @@ function populateCountries(countryElementId, stateElementId) {
         };
     }
 }
+
+var myJson = {
+    "country": [
+        {
+            "name": "United States",
+            "id": "usa",
+            "states": [
+                {
+                    "name": "State 1 USA",
+                    "id": "usaState1",
+                    "cities": [
+                        {
+                            "name": "City 1",
+                            "id": "usaState1City1",
+                            "area": "12345 sqkm"
+                        },
+                        {
+                            "name": "City 2",
+                            "id": "usaState1City2",
+                            "area": "12345 sqkm"
+                        }
+                    ]
+                },
+                {
+                    "name": "State 2 USA",
+                    "id": "usaState2",
+                    "cities": [
+                        {
+                            "name": "City 3",
+                            "id": "usaState2City3",
+                            "area": "12345 sqkm"
+                        },
+                        {
+                            "name": "City 4",
+                            "id": "usaState2City4",
+                            "area": "12345 sqkm"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Australia",
+            "id": "aus",
+            "states": [
+                {
+                    "name": "State 1 Australia",
+                    "id": "ausState1",
+                    "cities": [
+                        {
+                            "name": "City 5",
+                            "id": "ausState1City5",
+                            "area": "12345 sqkm"
+                        },
+                        {
+                            "name": "City 6",
+                            "id": "ausState1City6",
+                            "area": "12345 sqkm"
+                        }
+                    ]
+                },
+                {
+                    "name": "State 2 Australia",
+                    "id": "ausState2",
+                    "cities": [
+                        {
+                            "name": "City 7",
+                            "id": "ausState2City7",
+                            "area": "12345 sqkm"
+                        },
+                        {
+                            "name": "City 8",
+                            "id": "ausState2City8",
+                            "area": "12345 sqkm"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+
+
+
+$.each(myJson.country, function (index, value) {
+    $("#country").append('<option value="'+value.id+'">'+value.name+'</option>');
+});
+
+$('#country').on('change', function(){
+    console.log($(this).val());
+    for(var i = 0; i < myJson.country.length; i++)
+    {
+      if(myJson.country[i].id == $(this).val())
+      {
+         $('#state').html('<option value="000">-Select State-</option>');
+         $.each(myJson.country[i].states, function (index, value) {
+            $("#state").append('<option value="'+value.id+'">'+value.name+'</option>');
+        });
+      }
+    }
+});
